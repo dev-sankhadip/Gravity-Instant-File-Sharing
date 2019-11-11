@@ -1,0 +1,23 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <% include ../partials/head.ejs %>
+    <title>Public Image Share</title>
+</head>
+<body>
+    <div class="container-fluid p-3">
+        <div class="row">
+            <% for(var i=0;i<publicLinkOfImage.length; i++){ %>
+                <div class="col-md-10 mt-1">
+                    <img id="image" src="<%= publicLinkOfImage[i] %>" style="width: 300px; height: 300px;" alt="Responsive image">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-sm text-light" style="background-color: coral; font-weight: bold;"><a href="/public/download<%= publicLinkOfImage[i] %>" class="text-light">Download</a></button>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

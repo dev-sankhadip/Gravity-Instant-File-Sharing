@@ -1,0 +1,119 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="/compiler/code/codemirror.js"></script>
+    <script src="/compiler/code/crystal.js"></script>
+    <link rel="stylesheet" href="/compiler/code/codemirror.css">
+    <link rel="stylesheet" href="/compiler/code/dracula.css">
+    <script src="/compiler/code/closetag.js"></script>
+    <script src="/compiler/code/matchbrackets.js"></script>
+    <link rel="stylesheet" href="/compiler/code/mbo.css">
+    <link rel="stylesheet" href="/compiler/code/eclipse.css">
+    <link rel="stylesheet" href="/compiler/code/twilight.css">
+    <title>Gravity | Compiler</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="language">Select Language</label>
+                    <select class="form-control" id="language">
+                        <option>c</option>
+                        <option>c++</option>
+                        <option>java</option>
+                        <option>php</option>
+                        <option>python</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <p class="text-center">Type Your Code Here</p>
+                    <textarea class="form-control" id="compilerarea" rows="100" cols="100">
+                        <%= data %>
+                    </textarea>
+                    <center>
+                        <button class="btn btn-dark mt-3" id="compile" onclick="this.blur();">compile</button>
+                    </center>
+                    <textarea rows="5" id="code-message" class="form-control bg-dark text-light mt-3" style="display: none;"></textarea>
+                </div>
+            </div>
+	<div class="col-md-2">
+	    <div class="form-group">
+	         <label for="theme">select theme</label>
+                 <select class="form-control" onchange="setTheme()" id="select">
+                      <option>dracula</option>
+                      <option>mbo</option>
+		      <option>twilight</option>
+                      <option>eclipse</option>
+                 </select>
+            </div>
+	</div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        // console.log(window.location.href.split('/')[5]);
+        var editor=CodeMirror.fromTextArea
+        (document.getElementById('compilerarea'),{
+        value:document.getElementById('compilerarea').value,
+        theme:"dracula",
+        lineNumbers:true,
+        autoCloseTags:true,
+        matchBrackets:true,
+        mode:"text/x-crystal"
+        });
+        /*editor.getDoc().on('change', onNewLine);
+        function onNewLine(doc, change, isOnReady)
+        {
+            console.log(doc.cm.getTextAreaValue());
+        }*/
+
+        var input=document.getElementById("select");
+        function setTheme()
+        {
+            var theme = input.options[input.selectedIndex].textContent;
+            editor.setOption("theme", theme);
+        }
+
+
+
+        var compileBtn=document.getElementById('compile');
+        var messageBox=document.getElementById("code-message");
+        compileBtn.addEventListener('click', function()
+        {
+            // console.log(editor.getValue().trim());
+            var text=editor.getValue().trim();
+            /*var text=document.getElementById("compilerarea").value;*/
+            // console.log(text);
+            var language=document.getElementById("language").value;
+            if(language)
+            {
+                // console.log(language);
+                const fileid=window.location.href.split('/')[5];
+                axios.post('/compiler/runcode',{text,language, fileid})
+                .then((response)=>
+                {
+                    messageBox.style.display="block";
+                    messageBox.value=response.data.stdout;
+                })
+                .catch((err)=>
+                {
+                    console.log(err);
+                })
+            }
+            else
+            {
+                alert("select one language");
+            }
+        })
+    </script>
+</body>
+</html>

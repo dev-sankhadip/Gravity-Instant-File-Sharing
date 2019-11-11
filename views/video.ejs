@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <% include partials/head %>
+    <style>
+        #upload-title
+        {
+            font-family: 'Lacquer', sans-serif;
+            font-size: 25px;
+            color: #28A745;
+        }
+    </style>
+    <title>Video</title>
+</head>
+<body>
+    <% include partials/navbar %>
+    <div class="container shadow mb-2 p-2" style="margin-top: 50px; padding: 18px; box-sizing: border-box;">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p id="upload-title">UPLOAD VIDEO HERE</p>
+                </div>
+            </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <form id="fileUploadForm" novalidate method="POST" enctype="multipart/form-data" name="form" action="/video/upload">
+                            <div class="row">
+                                    <div class="col-md-12">
+                                            <div class="custom-file mb-3">
+                                                <input accept="video/*" type="file" name="image" class="custom-file-input" id="customFile" name="image">
+                                                <label class="custom-file-label" for="customFile" id="file-name">Choose file</label>
+                                            </div>
+                                    </div>
+                                    <div class="col-md-12 d-none mb-3" id="file-name-input-div">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text bg-success" style="color:white; border-color:#28A745;">
+                                                    <i class="fa fa-file-image-o"></i>
+                                                </span>
+                                            </div>
+                                            <input required name="imagename" type="text" placeholder="File name here, should be of 10 character" class="form-control border-left-0" id="file-name-input">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped bg-danger text-center" role="progressbar" id="file-upload-progress"></div>
+                                        </div>
+                                        <span>Uploaded: </span><span id="uploadedSize"></span> <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Total: </span> <span id="totalSize"></span>
+                                    </div>
+                                    <div class="col-md-12 mb-4">
+                                        <input type="submit" id="upload-btn" disabled class="btn btn-sm btn-danger" value="upload">
+                                        <span id="check-tag"></span>
+                                    </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-4">
+                        <form class="form-inline my-2 my-lg-0">
+                                <input class="form-control mr-sm-2 mb-3" type="search" placeholder="Search" aria-label="Search" id="image-search">
+                        </form>
+                        <div style="position: absolute;" class="shadow" id="result-div">
+                            <ul class="list-group" id="ul"></ul>
+                        </div>
+                    </div>
+            </div>
+    </div>
+    <div class="container mb-3">
+        <button onclick="this.blur();" class="btn btn-sm btn-danger" id="generate-multiple">
+            Generate Multiple File Link
+        </button>
+    </div>
+    <div class="container shadow overflow-auto">
+            <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col" style="color: red;">NAME</th>
+                        <th scope="col" style="color: lightcoral;">MODIFIED</th>
+                        <th scope="col" style="color: blue;">WATCH</th>
+                        <th scope="col" style="color: brown;">DOWNLOAD</th>
+                        <th scope="COL" style="color: chocolate;">DELETE</th>
+                        <th scope="col" style="color: crimson;">SHARE</th>
+                      </tr>
+                    </thead>
+                    <tbody id="image-content">
+                        <% result.forEach(function(item) { %>
+                            <tr id="<%= item.name %>">
+                                <td><%= item.name %></td>
+                                <td><%= item.date %></td>
+                                <td><a href="/video/watchvideo?v=<%= item.name %>&i=<%= item.videoid %>"><i class="fa fa-eye" style="color: blue;" aria-hidden="true" id="<%= item.videoid %>"></i></a></td>
+                                <td><a href="/video/download/<%= item.videoid %>"><i class="fa fa-cloud-download" style="color: green;" aria-hidden="true"></i></a></td>
+                                <td><i class="fa fa-trash" style="color: red;" aria-hidden="true" id="<%= item.videoid %>"></i></td>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input link-select" id="link-select<%= item.videoid %>" value="<%= item.videoid %>">
+                                        <label class="custom-control-label" for="link-select<%= item.videoid %>">select</label>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                  </table>
+    </div>
+    <input type="button" data-target="#email-modal" data-toggle="modal" id="share-btn" hidden>
+    <div class="modal fade" id="email-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Sharing Public URL Safely</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group flex-nowrap" id="first-email-input-div">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-success text-light" id="addon-wrapping">To:</span>
+                            </div>
+                            <input required type="email" class="form-control share-email" placeholder="Enter email here" id="share-email">
+                        </div>
+                        <button onclick="this.blur();" class="btn btn-sm text-light mt-2" id="add-reciepient" style="background-color: darksalmon;">Add Recipient</button>
+                        <div class="input-group flex-nowrap mt-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-success text-light" id="addon-wrapping">Generated Link:</span>
+                            </div>
+                            <input type="text" class="form-control" id="link" disabled style="background-color: white;">
+                        </div>
+                        <button onclick="this.blur();" type="button" id="send-link-btn" class="btn btn-outline-primary mt-3 float-right">SEND</button>
+                    </div>
+                    <div class="modal-footer">
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script src="/video/video.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <% include ../partials/head.ejs %>
+        <link rel="stylesheet" href="/watchvideo/skin/skin.css">
+        <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script src="/watchvideo/flowplayer.min.js"></script>
+    </head>
+    <body>
+        <div class="container-fluid p-3">
+            <div class="row">
+                <% for(var i=0;i<publicLinkOfImage.length;i++){ %>
+                <div class="col-md-10">
+                    <div class="flowplayer" data-swf="flowplayer.swf" data-ratio="0.4167">
+                        <video>
+                            <source type="video/mp4" src="<%= publicLinkOfImage[i] %>">
+                        </video>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-sm text-light" style="background-color: coral; font-weight: bold;"><a style="text-decoration: none;" href="/public/download<%= publicLinkOfImage[i] %>" class="text-light">Download</a></button>
+                </div>
+            <% } %>
+            </div>
+        </div>
+    </body>
+</html>

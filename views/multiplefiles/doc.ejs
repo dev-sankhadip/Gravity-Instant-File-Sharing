@@ -1,0 +1,24 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <% include ../partials/head.ejs %>
+    <title>Document</title>
+</head>
+<body>
+    <div class="container-fluid mt-1">
+            <% for(var i=0;i<publicLinkOfImage.length;i++){ %>
+                <div class="row">
+                    <div class="col-md-10 mt-2">
+                        <embed src="<%= publicLinkOfImage[i] %>">
+                    </div>
+                    <div class="col-md-2 mt-2">
+                        <button class="btn btn-sm text-light" style="background-color: coral; font-weight: bold;"><a href="/public/download<%= publicLinkOfImage[i] %>" class="text-light">Download</a></button>
+                    </div>
+                </div>
+                <hr>
+            <% } %>
+    </div>
+</body>
+</html>

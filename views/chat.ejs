@@ -1,0 +1,256 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/imagehover/imagehover.min.css">
+    <link rel="stylesheet" href="/animate.css">
+    <title>Gravity | Chat</title>
+</head>
+<body class="p-2" style="overflow: hidden;">
+    <div class="container-fluid" style="box-sizing: border-box;">
+        <div class="row">
+            <div class="col-4 pt-2" id="chat_list_box" style="border: 2px solid coral;">
+                <div class="row">
+                    <div id="chat-list" style="height: 340px; overflow-y: scroll;" class="col-12">
+                        <!-- <div class="w-100">
+                            <form class="form-inline my-2 my-lg-0">
+                                <input style="width: 100%;" class="form-control mr-sm-2 mb-3" type="search" placeholder="Search" id="friend-search">
+                            </form>
+                            <div style="position: absolute;" class="shadow" id="result-div">
+                                <ul class="list-group" id="friend-ul"></ul>
+                            </div>
+                        </div> -->
+                        <ul id="chat-list-ul" class="list-group"></ul>
+                    </div>
+                    <div class="col-12 pt-2" style="height: 320px; overflow: scroll;" id="friend-div">
+                        <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#friend-suggestion-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Friend Suggestion</button>
+                        <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#friend-request-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Friend Request<span class="badge badge-dark" id="request_count"><%= result1.length %></span></button>
+                        <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#sent-request-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Sent Request</button>
+                        <div id="friend-suggestion-div" class="collapse">
+                            <% if(result){ %>
+                                <ul>
+                                    <% result.forEach(function(item){ %>
+                                        <li id="<%=item.userid %>">
+                                            <div id="suggestion-name-div">
+                                                <span data-target="#profile-view-modal" data-toggle="modal" class="suggestion_name"><%= item.name %></span>
+                                            </div>
+                                            <button type="btn" class="btn btn-sm btn-warning add" onclick="this.blur();" style="border-radius: 0;" id="add">Add Friend</button>
+                                            <!-- <button type="btn" class="btn btn-sm btn-danger remove" onclick="this.blur()" style="border-radius: 0;" id="remove">Remove</button> -->
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                            <% } %>
+                        </div>
+                        <div id="friend-request-div" class="collapse">
+                            <% if(result1){ %>
+                                <ul id="request-ul">
+                                    <% result1.forEach(function(item){ %>
+                                        <li id="<%= item.userid %>">
+                                            <div>
+                                                <span><%= item.name %></span>
+                                            </div>
+                                            <button type="btn" class="btn btn-sm btn-success accept" onclick="this.blur();" style="border-radius: 0;">Accept</button>
+                                            <button type="btn" class="btn btn-sm btn-danger reject" onclick="this.blur()" style="border-radius: 0;">Reject</button>
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                            <% } %>
+                        </div>
+                        <div id="sent-request-div" class="collapse">
+                            <% if(result2){ %>
+                                <ul id="sent-request-ul">
+                                    <% result2.forEach(function(item){ %>
+                                        <li id="<%= item.userid %>">
+                                            <div>
+                                                <span><%= item.name %></span>
+                                            </div>
+                                            <button type="btn" class="btn btn-sm btn-warning text-light cancel" onclick="this.blur()" style="border-radius: 0;">Cancel Request</button>
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8 p-0" id="chat_box_style_id" style="background-color: #E5DDD5;">
+                <!-- <div style="width: 100%;height: auto;"> -->
+                    <nav id="header" class="navbar navbar-expand-md shadow d-none" style="background-color: #EEEEEE;">
+                        <a class="navbar-brand text-dark" href="#" id="chat-title"></a>
+                        <i class="fa fa-bars navbar-toggler nav-icon" style="font-size: 35px;color:black;"></i>
+                        <div class="collapse navbar-collapse" id="mobile-menu">
+                            <ul class="navbar-nav ml-auto" id="navbar-li">
+                                <li class="nav-item mr-5"><i style="font-size: 25px;" class="fa fa-paperclip" aria-hidden="true" id="files-btn" data-toggle="modal" data-target="#public_files_modal"></i></li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <div id="chat-box" style="width: 100%; overflow: scroll;"></div>
+                    <div id="footer" style="position: fixed; bottom:20px; width: 65%;margin-left: 4px;" class="d-none">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="message" id="message">
+                            <input type="text" class="form-control" placeholder="Email" id="recieverId" hidden>
+                            <div class="input-group-append" id="button-addon4">
+                                <button class="btn btn-dark" type="button" id="message-btn" onclick="this.blur()" style="border-radius: 0;">SEND</button>
+                            </div>
+                        </div>
+                    </div>
+                <!-- </div> -->
+            </div>
+            <div class="modal animated fadeIn" id="public_files_modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <i id="close-modal" class="fa fa-times-circle text-right text-danger" style="font-size:20px; margin-right: 10px; margin-top: 10px;" data-dismiss="modal"></i>
+                        <div class="modal-body">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item"><a href="#image" class="nav-link active" data-toggle="tab" id="image-tab">Image</a></li>
+                                <li class="nav-item"><a href="#audio" class="nav-link" data-toggle="tab" id="audio-tab">Audio</a></li>
+                                <li class="nav-item"><a href="#video" class="nav-link" data-toggle="tab" id="video-tab">Video</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="image" class="tab-pane active pt-2">
+                                    <% if(result3){ %>
+                                        <% result3.forEach(function(item){ %>
+                                            <figure class="imghvr-fade">
+                                                <img src="<%= item.imageid %>/image/<%= item.name %>" style="width: 90px; height: 90px;">
+                                                <figcaption style="padding-left: 20px;">
+                                                    <button id="<%= item.imageid %>" class="btn btn-sm btn-danger text-light select-image-btn" style="border-radius: 0;" onclick="this.blur()">select</button>
+                                                </figcaption>
+                                            </figure>
+                                       <% }) %>
+                                    <% } %>
+                                </div>
+                                <div id="audio" class="tab-pane pt-2">
+                                    <% if(result4){ %>
+                                       <% result4.forEach(function(item){ %>
+                                            <figure class="imghvr-fade">
+                                                <div style="width: 107px; height: 107px; background-color: darkgray; color: black;">
+                                                    <audio controls id="<%= item.audioid %>a" class="audio-player">
+                                                        <source src="<%= item.audioid %>/audio/<%= item.name %>">
+                                                    </audio>
+                                                    <span><%= item.name %></span>
+                                                </div>
+                                                <figcaption style="padding-left: 20px; padding-top: 5px;" id="<%= item.audioid %>">
+                                                    <button id="<%= item.audioid %>" class="btn btn-sm btn-danger text-light select-audio-btn" style="border-radius: 0;" onclick="this.blur()">select</button>
+                                                    <button id="<%= item.audioid %>" class="btn btn-sm btn-success text-light play-audio-btn mt-1" style="border-radius: 0;" onclick="this.blur()">play</button>
+                                                    <button id="<%= item.audioid %>" class="btn btn-sm btn-dark text-light pause-audio-btn mt-1" style="border-radius: 0;" onclick="this.blur()">pause</button>
+                                                </figcaption>
+                                            </figure>
+                                        <% }) %>
+                                    <% } %>
+                                </div>
+                                <div id="video" class="tab-pane pt-2">
+                                    <% if(result5){ %>
+                                        <% result5.forEach(function(item){ %>
+                                             <figure class="imghvr-fade">
+                                                 <div style="width: 120px; height: 120px; background-color: darkgray; color: black;">
+                                                     <!-- <video controls id="<%= item.videoid %>v" class="video-player" style="width: 115px; height: 115px;">
+                                                         <source src="<%= item.videoid %>/watchvideo/<%= item.name %>">
+                                                     </video> -->
+                                                     <span><%= item.name %></span>
+                                                 </div>
+                                                 <figcaption style="padding-left: 20px; padding-top: 5px;" id="<%= item.videoid %>">
+                                                     <button class="btn btn-sm btn-danger text-light select-video-btn" style="border-radius: 0;" onclick="this.blur()">select</button>
+                                                     <button class="btn btn-sm btn-success text-light play-video-btn mt-1" style="border-radius: 0;" onclick="this.blur()">play</button>
+                                                     <button class="btn btn-sm btn-dark text-light pause-video-btn mt-1" style="border-radius: 0;" onclick="this.blur()">pause</button>
+                                                 </figcaption>
+                                             </figure>
+                                         <% }) %>
+                                     <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="profile-view-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <img src="" alt="" class="img-thumbnail">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input-group flex-nowrap">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text">Email</span>
+                                        </div>
+                                        <input type="text" class="form-control" disabled id="profile-email" style="background-color: white;">
+                                    </div>
+                                    <div class="input-group flex-nowrap">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text">Phone No</span>
+                                        </div>
+                                        <input type="text" class="form-control" disabled id="profile-phone-no" style="background-color: white;">
+                                    </div>
+                                    <div class="input-group flex-nowrap">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text">University</span>
+                                        </div>
+                                        <input type="text" class="form-control" disabled id="profile-university" style="background-color: white;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                #friend-div
+                {
+                    border-top-color: #555;
+                    border-top-style: solid;
+                    border-top-width: 1;
+                }
+                #chat_box_style_id
+                {
+                    border-top-color: coral;
+                    border-top-style: solid;
+                    border-top-width: 2px;
+
+                    border-right-color: coral;
+                    border-right-style: solid;
+                    border-right-width: 2px;
+
+                    border-bottom-color: coral;
+                    border-bottom-style: solid;
+                    border-bottom-width: 2px;
+                }
+                ::-webkit-scrollbar {
+                width: 10px;
+                }
+                ::-webkit-scrollbar-track {
+                background: #f1f1f1; 
+                }
+                ::-webkit-scrollbar-thumb {
+                background: #888; 
+                }
+                ::-webkit-scrollbar-thumb:hover {
+                background: #555; 
+                }
+            </style>
+        </div>
+    </div>
+    <script>
+        document.querySelector("#chat_list_box").style.height=(window.innerHeight-20)+"px";
+        document.querySelector("#chat-box").style.height=(window.innerHeight-115)+"px";
+        window.onresize=function()
+        {
+            document.querySelector("#chat-box").style.height=(window.innerHeight-115)+"px";
+            document.querySelector("#chat_list_box").style.height=(window.innerHeight-20)+"px";
+        }
+    </script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/chat/chat.js"></script>
+    <!-- <script src="./chat/friend.js"></script> -->
+</body>
+</html>

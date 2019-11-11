@@ -1,0 +1,22 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <% include ../partials/head.ejs %>
+    <title>Public Image Share</title>
+</head>
+<body>
+    <div class="container-fluid p-3">
+        <div class="row">
+            <div class="col-md-10">
+                <img id="image" src="<%= url %>" class="img-fluid" alt="Responsive image">
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-sm text-light" style="background-color: coral; font-weight: bold;"><a href="/public/download<%= url %>" class="text-light">Download</a></button>
+                <button class="btn btn-sm text-light mt-1" style="background-color: blue; font-weight: bold;">Add to Your Libray</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
