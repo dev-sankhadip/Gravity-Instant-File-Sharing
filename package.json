@@ -15,7 +15,7 @@
     "ejs": "^2.7.1",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6-alpha.6",
-    "express-zip": "^2.0.1",
+    "express-zip": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",
