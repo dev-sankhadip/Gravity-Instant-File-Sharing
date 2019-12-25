@@ -1,0 +1,13 @@
+project to build
+
+project idea link:= https://medium.com/@dtkatz/10-react-starter-project-ideas-to-get-you-coding-5b35782e1831
+
+
+1.shopping cart in react.js with node
+2.todo app in react native with spring boot
+3.project management system
+4.flipkart like website
+5.car rental app in react native with Node
+
+
+https://www.zeolearn.com/magazine/6-awesome-things-you-can-do-with-nodejs
