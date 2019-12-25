@@ -4,14 +4,9 @@ const cookieparser=require('cookie-parser');
 const checkToken=require('../jwt/jwt').checkToken;
 const connection=require('../db/db');
 const jwt=require('jsonwebtoken');
-const Nexmo=require('nexmo');
 const sgMail=require('@sendgrid/mail');
 const sendGridKey=require('../config/key').sendGridKey;
 sgMail.setApiKey(sendGridKey);
-const nexmo = new Nexmo({
-  apiKey: '9b6f0e33',
-  apiSecret: 'NKmgoPcNHr3fmPvh',
-},{ debug:true });
 
 
 const config={
@@ -24,7 +19,19 @@ router.use(cookieparser());
 //send login page
 router.get('/',(request, response)=>
 {
-    response.render('login');
+  if(request.cookies.email)
+  {
+    const token=request.cookies.email;
+    jwt.verify(token, config.secret, (err, decoded) => {
+      if (err) {
+        console.log(err);
+          console.log('not valid')
+          response.render('login');
+      } else {
+        response.redirect('/users/login');
+      }
+    });
+  }
 })
 
 
