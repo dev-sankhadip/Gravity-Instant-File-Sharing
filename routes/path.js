@@ -32,6 +32,10 @@ router.get('/',(request, response)=>
       }
     });
   }
+  else
+  {
+    response.render('login')
+  }
 })
 
 
@@ -321,7 +325,6 @@ router.get('/public/:token/audio/:name',(request, response, next)=>
         message: 'Token is not valid'
       });
     } else {
-    //   console.log("here");
       next();
     }
   });
@@ -375,42 +378,42 @@ router.post('/share',checkToken, function(request, response)
   })
 })
 
-//view public url
-router.get('/public/:type', function(request, response)
-{
-  const { type }=request.params;
-  const { expire, name }=request.query;
-  jwt.verify(expire, config.secret, (err, decoded) => {
-    if (err) {
-      return response.json({
-        success: false,
-        code:'304',
-        message: 'Token is not valid'
-      });
-    } else {
-      if(type==='video')
-      {
-        const url=`/public/${expire}/watchvideo/${name}`;
-        response.render('public/video.ejs',{ url });
-      }
-      else if(type==='image')
-      {
-        const url=`/public/${expire}/${type}/${name}`;
-        response.render("public/image.ejs",{ url });
-      }
-      else if(type==='audio')
-      {
-        const url=`/public/${expire}/${type}/${name}`;
-        response.render('public/audio.ejs',{ url });
-      }
-      else if(type==='docs')
-      {
-        const url=`/public/${expire}/${type}/${name}`;
-        response.render('public/docs.ejs',{url});
-      }
-    }
-  });
-})
+// //view public url
+// router.get('/public/:type', function(request, response)
+// {
+//   const { type }=request.params;
+//   const { expire, name }=request.query;
+//   jwt.verify(expire, config.secret, (err, decoded) => {
+//     if (err) {
+//       return response.json({
+//         success: false,
+//         code:'304',
+//         message: 'Token is not valid'
+//       });
+//     } else {
+//       if(type==='video')
+//       {
+//         const url=`/public/${expire}/watchvideo/${name}`;
+//         response.render('public/video.ejs',{ url });
+//       }
+//       else if(type==='image')
+//       {
+//         const url=`/public/${expire}/${type}/${name}`;
+//         response.render("public/image.ejs",{ url });
+//       }
+//       else if(type==='audio')
+//       {
+//         const url=`/public/${expire}/${type}/${name}`;
+//         response.render('public/audio.ejs',{ url });
+//       }
+//       else if(type==='docs')
+//       {
+//         const url=`/public/${expire}/${type}/${name}`;
+//         response.render('public/docs.ejs',{url});
+//       }
+//     }
+//   });
+// })
 
 //download public shared file
 router.get('/public/download/public/:token/:type/:filename', function(request, response)
