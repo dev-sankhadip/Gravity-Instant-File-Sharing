@@ -3,6 +3,10 @@ const router=express.Router();
 const multer=require('multer');
 const fs=require('fs');
 const jwt=require('jsonwebtoken');
+const fileUpload=require('express-fileupload');
+const fse=require('fs-extra');
+
+
 const checkCookies=require('../jwt/jwt').checkToken;
 const connection=require('../db/db');
 
@@ -11,6 +15,7 @@ const config={
     secret:"iamthebest"
 }
 
+// router.use(fileUpload())
 
 router.post('/upload', checkCookies ,upload.single('image'), function(request, response)
 {
@@ -31,8 +36,8 @@ router.post('/upload', checkCookies ,upload.single('image'), function(request, r
         else
         {
             const time=new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString();
-            var sqlInsertQuery="insert into image(userid, email, name, date) values(?,?,?,?)";
-            connection.query(sqlInsertQuery,[userid, email, filename, time],(err, result)=>
+            var sqlInsertQuery="insert into image(userid, email, name,type, date) values(?,?,?,?,?)";
+            connection.query(sqlInsertQuery,[userid, email, filename,'file', time],(err, result)=>
             {
                 if(err)
                 {
@@ -49,6 +54,34 @@ router.post('/upload', checkCookies ,upload.single('image'), function(request, r
             })
         }
     })
+})
+
+router.post('/upload/folder', checkCookies, fileUpload(), function(request, response)
+{
+    const { email }=request.decoded;
+    const userid=request.cookies.id;
+    // console.log(request.body);
+    const { file }=request.files;
+    const { path }=request.body;
+    const newpath="/home/sankha/Desktop/gravity/upload/image/";
+    for(let i=0;i<file.length;i++)
+    {
+        // console.log(file[i]);
+        let filePath=path[i].split('/');
+        filePath.pop();
+        fse.ensureDir(newpath+filePath.join('/'))
+        .then((res)=>{
+            file[i].mv(`${newpath}${path[i]}`,(err)=>{
+                if(err)
+                {
+                    throw new Error("Error");
+                }
+                console.log('success');
+            })
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
 })
 
 
@@ -204,12 +237,5 @@ router.post('/check', checkCookies, function(request, response)
         }
     })
 })
-
-
-// router.post("/share", function(request, response)
-// {
-    
-// })
-
 
 module.exports=router;

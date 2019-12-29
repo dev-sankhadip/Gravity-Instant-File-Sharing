@@ -32,36 +32,66 @@
                             <p id="upload-title" class="text-success">UPLOAD IMAGE HERE</p>
                         </div>
                     <div class="col-md-8">
-                            <form id="fileUploadForm" novalidate method="POST" enctype="multipart/form-data" name="form" action="/image/upload">
-                                <div class="row">
-                                        <div class="col-md-12">
-                                                <div class="custom-file mb-3">
-                                                    <input accept="image/*" type="file" name="image" class="custom-file-input" id="customFile">
-                                                    <label class="custom-file-label" for="customFile" id="fileName">Choose file</label>
-                                                </div>
-                                        </div>
-                                        <div class="col-md-12 d-none mb-3" id="file-name-input-div">
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text bg-success" style="color:white; border-color:#28A745;">
-                                                        <i class="fa fa-file-image-o"></i>
-                                                    </span>
-                                                </div>
-                                                <input required name="imagename" type="text" placeholder="File name here, should be of 10 character" class="form-control border-left-0" id="file-name-input">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item"><a href="#file-upload" class="nav-link" data-toggle="tab">Upload File</a></li>
+                            <li class="nav-item"><a href="#folder-upload" class="nav-link active" data-toggle="tab">Upload Folder</a></li>
+                        </ul>
+                        <div class="tab-content" style="overflow: hidden;">
+                            <div class="tab-pane pt-2" id="file-upload">
+                                <form id="fileUploadForm" novalidate method="POST" enctype="multipart/form-data" name="form" action="/image/upload">
+                                    <div class="row">
+                                            <div class="col-md-12">
+                                                    <div class="custom-file mb-3">
+                                                        <input type="file" name="image" class="custom-file-input" id="customFile">
+                                                        <label class="custom-file-label" for="customFile" id="fileName">Choose File</label>
+                                                    </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-12 mb-3">
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-striped bg-danger text-center" role="progressbar" id="file-upload-progress"></div>
+                                            <div class="col-md-12 d-none mb-3" id="file-name-input-div">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-success" style="color:white; border-color:#28A745;">
+                                                            <i class="fa fa-file-image-o"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input required name="imagename" type="text" placeholder="File name here, should be of 10 character" class="form-control border-left-0" id="file-name-input">
+                                                </div>
                                             </div>
-                                            <span>Uploaded: </span><span id="uploadedSize"></span> <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Total: </span> <span id="totalSize"></span>
-                                        </div>
-                                        <div class="col-md-12 mb-4">
-                                            <input type="submit" id="upload-btn" disabled class="btn btn-sm btn-danger" value="upload">
-                                            <span id="check-tag"></span>
-                                        </div>
-                                </div>
-                            </form>
+                                            <div class="col-md-12 mb-3">
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped bg-danger text-center" role="progressbar" id="file-upload-progress"></div>
+                                                </div>
+                                                <span>Uploaded: </span><span id="uploadedSize"></span> <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Total: </span> <span id="totalSize"></span>
+                                            </div>
+                                            <div class="col-md-12 mb-4">
+                                                <input type="submit" id="upload-btn" disabled class="btn btn-sm btn-danger" value="upload">
+                                                <span id="check-tag"></span>
+                                            </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane pt-2 active" id="folder-upload">
+                                <!-- <form id="folderUploadForm" novalidate method="POST" enctype="multipart/form-data" name="form" action=""> -->
+                                    <div class="row">
+                                            <div class="col-md-12">
+                                                    <div class="custom-file mb-3">
+                                                        <input accept="image/*" type="file" name="image" class="custom-file-input" id="customFolder" directory webkitdirectory>
+                                                        <label class="custom-file-label" for="customFolder" id="folderName">Choose Folder</label>
+                                                    </div>
+                                            </div>
+                                            <div class="col-md-12 mb-3">
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped bg-danger text-center" role="progressbar" id="folder-upload-progress"></div>
+                                                </div>
+                                                <span>Uploaded: </span><span id="folderUploadedSize"></span> <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Total: </span> <span id="folderTotalSize"></span>
+                                            </div>
+                                            <div class="col-md-12 mb-4">
+                                                <input type="submit" id="folder-upload-btn" class="btn btn-sm btn-danger" value="upload">
+                                                <!-- <span id="folder-check-tag"></span> -->
+                                            </div>
+                                    </div>
+                                <!-- </form> -->
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <form class="form-inline my-2 my-lg-0">
@@ -79,7 +109,13 @@
                     </button>
                 </div>
     <div class="container shadow overflow-auto">
-            <table class="table table-striped">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a href="#files" class="nav-link active" data-toggle="tab">Files</a></li>
+            <li class="nav-item"><a href="#folders" class="nav-link" data-toggle="tab">Folder</a></li>
+        </ul>
+        <div class="tab-content" style="overflow: hidden;">
+            <div class="tab-pane active pt-2" id="files">
+                <table class="table table-striped">
                     <thead>
                       <tr>
                         <th scope="col">NAME</th>
@@ -109,7 +145,12 @@
                         <% }) %>
                     </tbody>
                   </table>
-                  <button hidden data-target="#email-modal" data-toggle="modal" id="open-modal"></button>
+            </div>
+            <div class="tab-pane pt-2" id="folders">
+                
+            </div>
+        </div>
+        <button hidden data-target="#email-modal" data-toggle="modal" id="open-modal"></button>
     </div>
     <div class="modal fade" id="image-modal">
         <div class="modal-dialog modal-lg">
@@ -129,8 +170,6 @@
                 <div class="modal-body" id="modal-body">
                         <ul class="nav nav-tabs">
                             <li class="nav-item"><a href="#email" class="nav-link active" data-toggle="tab" id="login-tab">Email</a></li>
-                            <li class="nav-item"><a href="#sms" class="nav-link" data-toggle="tab">Sms</a></li>
-                            <li class="nav-item"><a href="#whatsapp" class="nav-link" data-toggle="tab">Whats App</a></li>
                         </ul>
                         <div class="tab-content" style="overflow: hidden;">
                             <div class="tab-pane active pt-2" id="email">
@@ -149,36 +188,6 @@
                                     </div>
                                     <button type="button" id="send-link-btn" class="btn btn-outline-primary mt-3 float-right">SEND</button>
                             </div>
-                            <!-- <div id="sms" class="tab-pane pt-2">
-                                <div class="input-group flex-nowrap">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-success text-light">Number:</span>
-                                    </div>
-                                    <input required type="number" class="form-control" placeholder="Enter email here" id="share-number">
-                                </div>
-                                <div class="input-group flex-nowrap mt-2">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-success text-light">Generated Link:</span>
-                                    </div>
-                                    <input type="text" class="form-control" id="number-share-link" disabled style="background-color: white;">
-                                </div>
-                                <button type="button" id="send-link-no-btn" class="btn btn-outline-primary mt-3 float-right">SEND</button>
-                            </div>
-                            <div class="tab-pane pt-2" id="whatsapp">
-                                <div class="input-group flex-nowrap">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-success text-light">Whatsapp No:</span>
-                                    </div>
-                                    <input required type="number" class="form-control" placeholder="Enter email here" id="share-whatsapp">
-                                </div>
-                                <div class="input-group flex-nowrap mt-2">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-success text-light">Generated Link:</span>
-                                    </div>
-                                    <input type="text" class="form-control" id="whatsapp-share-link" disabled style="background-color: white;">
-                                </div>
-                                <button type="button" id="send-link-whatsapp-btn" class="btn btn-outline-primary mt-3 float-right">SEND</button>
-                            </div> -->
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -190,6 +199,7 @@
     <script>
         console.log(document.cookie);
     </script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/image/image.js"></script>
     <script src="/image/image_search.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

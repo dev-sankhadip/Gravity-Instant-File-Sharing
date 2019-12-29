@@ -342,32 +342,6 @@ document.getElementById("generate-multiple").addEventListener("click", function(
 })
 
 
-// document.querySelector("#send-link-no-btn").addEventListener("click", function()
-// {
-//     var link=document.getElementById("number-share-link").value;
-//     var ph_no=document.getElementById("share-number").value;
-
-//     fetch('/no',{
-//         method:"POST",
-//         body:JSON.stringify({ ph_no, link }),
-//         headers:{
-//             Accept:'application/json',
-//             'Content-Type':'application/json'
-//         }
-//     })
-//     .then((res)=>
-//     {
-//         return res.json();
-//     })
-//     .then((res)=>
-//     {
-//         console.log(res);
-//     })
-//     .catch((err)=>
-//     {
-//         console.log(err);
-//     })
-// })
 
 
 var add_reciepient=document.getElementById("add-reciepient");
@@ -400,132 +374,57 @@ add_reciepient.addEventListener("click", function()
 })
 
 
-// var uploadform=document.getElementById("upload-form");
-// var file=document.getElementById("customFile");
-// var filename=document.getElementById("file-name");
-// var fileNameDiv=document.getElementById("file-name-input-div");
+//folder upload code
 
-// var formdata
-// file.onchange=(e)=>
-// {
-//     // console.log(e.target.files[0])
-//     formdata=new FormData();
-//     formdata.append('file', e.target.files[0]);
-//     fileNameDiv.classList.remove("d-none");
-//     document.getElementById("file-name").innerHTML=e.target.files[0].name;
-// }
+class FolderUploadData{
+    constructor()
+    {
+        this.filesData=[];
+    }
 
-// uploadform.onsubmit=(e)=>
-// {
-//     e.preventDefault();
-//     fileNameDiv.classList.add('d-none');
-//     document.getElementById("file-name").innerHTML="Choose file";
-//     var fileName=document.getElementById("file-name-input").value;
-//     //formdata.append("filename",fileName);
-//     var token=localStorage.getItem("token");
-//     var date=new Date();
-//     axios.post("/imageupload",formdata,{
-//         headers:{
-//             'Content-Type':'multipart/form-data',
-//             'filename':fileName,
-//             'x-access-token':token
-//         },
-//         onUploadProgress:ProgressEvent=>{
-//             var fileUploadProgress=document.getElementById("file-upload-progress");
-//             var uploadPercentage=parseInt(Math.round((ProgressEvent.loaded*100) / ProgressEvent.total))
-//             fileUploadProgress.style.width=uploadPercentage+"%";
-//             fileUploadProgress.innerHTML=uploadPercentage+"%";
-//             //clear percentage
-//             // setTimeout(() => {
-//             //     fileUploadProgress.style.width=0+"%";
-//             //     fileUploadProgress.innerHTML=0+"%";
-//             // }, 10000);
-//         }
-//     })
-//     .then((response)=>
-//     {
-//         // console.log(response);
-//         if(response.data.code==200)
-//         {
-//             // var len=response.data.result.length;
-//             // console.log(len);
-//             for(var i=0;i<1;i++)
-//             {
-//                 // console.log(response.data.result[i].name);
-//                 console.log(fileName);
-//                 allImage.push(response.data.result[i]);
-
-//                 var imageContent=document.getElementById("image-content");
-
-//                 var tr=document.createElement("TR");
-//                 tr.scope="row";
-
-//                 var th_name=document.createElement("TH");
-//                 var th_name_text=document.createTextNode(fileName);
-//                 th_name.appendChild(th_name_text);
-//                 tr.appendChild(th_name);
-
-//                 var th_date=document.createElement("TH");
-//                 var th_date_text=document.createTextNode(new Date().toDateString());
-//                 th_date.appendChild(th_date_text);
-//                 tr.appendChild(th_date);
-
-//                 var th_view=document.createElement("TH");
-//                 var fa_icon_view=document.createElement("I");
-//                 fa_icon_view.className="fa fa-eye";
-//                 fa_icon_view.classList.add("text-primary");
-//                 th_view.appendChild(fa_icon_view);
-//                 tr.appendChild(th_view);
-
-//                 var th_download=document.createElement("TH");
-//                 var fa_icon_download=document.createElement("I");
-//                 fa_icon_download.className="fa fa-cloud-download";
-//                 fa_icon_download.classList.add("text-success");
-//                 th_download.appendChild(fa_icon_download);
-//                 tr.appendChild(th_download);
-
-//                 var th_delete=document.createElement("TH");
-//                 var fa_icon_delete=document.createElement("I");
-//                 th_delete.appendChild(fa_icon_delete);
-//                 fa_icon_delete.className="fa fa-trash";
-//                 fa_icon_delete.classList.add("text-danger");
-//                 fa_icon_delete.id=response.data.result[i].name;
-//                 fa_icon_delete.addEventListener('click',function()
-//                 {
-//                     var parent_element_1=this.parentElement;
-//                     var parent_element_2=parent_element_1.parentElement;
-//                     parent_element_2.remove();
-//                     var token=localStorage.getItem("token");
-//                     axios.delete(`/deleteimage/${this.id}`,{
-//                         headers:{
-//                             'x-access-token':token
-//                         }
-//                     })
-//                     .then((response)=>
-//                     {
-//                         console.log(response);
-//                     })
-//                 })
-//                 tr.appendChild(th_delete);
-
-//                 imageContent.appendChild(tr);
-//             }
-//         }
-//     })
-// }
+    setFilesData(data)
+    {
+        this.filesData.push(data);
+    }
+    
+    getFilesData()
+    {
+        return this.filesData;
+    }
+}
 
 
 
+const folderUploadData=new FolderUploadData();
+const folderUploadInput=document.getElementById("customFolder");
+const folderUploadBtn=document.getElementById("folder-upload-btn");
+folderUploadInput.onchange=function(e)
+{
+    const mainFolder=e.target.files[0].webkitRelativePath.split('/');
+    // console.log(mainFolder)
+    console.log(e.target.files)
+    for(let i=0;i<e.target.files.length;i++)
+    {
+        folderUploadData.setFilesData(e.target.files[i]);
+    }
+}
 
-
-
-
-
-// $(document).ready(function()
-// {
-//     $(".nav-icon").click(function()
-//     {
-//         $("#mobile-menu").collapse('toggle');
-//         $("#mobile-menu").addClass("animated slideInRight faster")
-//     })
-// })
+folderUploadBtn.addEventListener("click", function(e)
+{
+    let filesDataArray=folderUploadData.getFilesData();
+    const formData=new FormData();
+    for(let i=0;i<filesDataArray.length;i++)
+    {
+        formData.append("file", filesDataArray[i]);
+        formData.append("path",filesDataArray[i].webkitRelativePath);
+    }
+    axios.post('/image/upload/folder',formData,{
+        headers:{
+            'Content-Type':'multipart/form-data',
+        }
+    }).then((res)=>{
+        console.log(res);
+    }).catch((err)=>{
+        console.log(err)
+    })
+})
