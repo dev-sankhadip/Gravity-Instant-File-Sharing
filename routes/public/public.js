@@ -28,7 +28,7 @@ router.get('/multiple/image', function(request, response)
                 var url=`/public/${expire}/image/${filesArray[i]}`;
                 publicLinkOfImage.push(url);
             }
-            console.log(publicLinkOfImage);
+            // console.log(publicLinkOfImage);
             response.render('multiplefiles/image.ejs',{ publicLinkOfImage });
         }
       });

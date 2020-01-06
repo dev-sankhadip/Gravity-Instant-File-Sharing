@@ -66,7 +66,6 @@ router.post('/upload/folder', checkCookies, fileUpload(), function(request, resp
     const newpath="/home/sankha/Desktop/gravity/upload/image/";
     for(let i=0;i<file.length;i++)
     {
-        // console.log(file[i]);
         let filePath=path[i].split('/');
         filePath.pop();
         fse.ensureDir(newpath+filePath.join('/'))

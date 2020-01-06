@@ -25,7 +25,8 @@ router.get('/login',checkCookies, function(request, response)
 
 router.post('/signup',(request, response)=>
 {
-    const { username, number, email, password, university }=request.body;
+    const { username, number, email, password }=request.body;
+    console.log(request.body);
     if(password.length<6)
     {
         response.send({
@@ -48,8 +49,9 @@ router.post('/signup',(request, response)=>
             }
             else
             {
+                let university="CUHP"
                 const tokenUUID=uuid();
-                var sql="insert into verification(uuid, name, email, number, university, password) values(?,?,?,?,?)";
+                var sql="insert into verification(uuid, name, email, number, university, password) values(?,?,?,?,?,?)";
                 connection.query(sql,[tokenUUID, username, email, number, university, password], function(err, result)
                 {
                     if(err)
@@ -85,13 +87,8 @@ router.get('/verification/:token', function(request, response)
         else
         {
             console.log(result);
-            const name=result[0].name;
-            const email=result[0].email;
-            const number=result[0].number;
-            const password=result[0].password;
-            const uuid=result[0].uuid;
-            const university=result[0].university;
-            var sqlInsertQuery="insert into info(name, email, number, university, password) values(?,?,?,?)";
+            const { name, email, number, password, uuid, university }=result[0];
+            var sqlInsertQuery="insert into info(name, email, number, university, password) values(?,?,?,?,?)";
             connection.query(sqlInsertQuery,[name, email, number,university, password], function(err, result)
             {
                 if(err)

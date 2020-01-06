@@ -9,7 +9,6 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/animate.css">
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<style>
 		body
 		{   width: 100%;
@@ -28,7 +27,7 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		  <ul class="navbar-nav mr-auto">
 			<li class="nav-item active">
-			  <a class="nav-link text-light" href="#">Home <span class="sr-only">(current)</span></a>
+			  <a class="nav-link text-light" href="#">Home</a>
 			</li>
 			<li class="nav-item">
 			  <a class="nav-link text-light" href="#" data-toggle="modal" data-target="#account">Login</a>
@@ -91,15 +90,11 @@
 								  <span aria-hidden="true">&times;</span>
 								</button>
 							</div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="rem-checkbox">
-                                <label class="custom-control-label" for="rem-checkbox">Remember Me</label>
-                            </div>
                             <button type="submit" class="btn btn-primary float-right">Login</button>
                         </form>
                     </div>
                     <div id="signup" class="tab-pane pt-2">
-                        <form autocomplete="off" id="signup-form" method="POST" action="/users/signup" enctype="multipart/form-data">
+                        <form autocomplete="off" id="signup-form" method="POST" action="/users/signup" enctype="application/x-www-form-urlencoded">
                             <div class="row">
                                 <div class="col-md-12 mb-3">
                                     <div class="input-group">
@@ -142,22 +137,22 @@
                                     </div>
                                 </div>
 							</div>
-							<div class="row">
+							<!-- <div class="row">
 								<div class="col-md-12">
 									<div class="custom-file">
 										<input type="file" class="custom-file-input" id="customFile">
 										<label name="profilePic" class="custom-file-label" id="profile-pic-name" for="customFile">Choose file</label>
 									</div>
 								</div>
-							</div>
-							<div class="form-group">
+							</div> -->
+							<!-- <div class="form-group">
 								<label for="university">University</label>
 								<select class="form-control" id="university" name="university">
 									<option>CUHP</option>
 									<option>CUP</option>
 									<option>IIT-ROPAR</option>
 								</select>
-							</div>
+							</div> -->
 							<div class="alert alert-warning alert-dismissible fade show d-none" role="alert" id="signup-password-alert-div">
 								<strong id="signup-password-alert"></strong>
 								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -175,12 +170,8 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer bg-warning">
-                <p class="mx-auto">You don't have account <a href="#">Create now</a></p>
-            </div>
         </div>
 	</div>
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script src="/login/login.js"></script>
+	<!-- <script src="/login/login.js"></script> -->
 </body>
 </html>
