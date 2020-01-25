@@ -5,6 +5,9 @@
 
 <br>
 
+## Site URL
+
+http://34.203.204.120:4000
 
 ## Tools used
 * NodeJS, ExpressJS, Javascript, HTML, CSS, Bootstrap
