@@ -22,7 +22,7 @@ image_update_btn.addEventListener("click", function(e)
                 }
             })
         }
-        convertToBase64(e.target.value)
+        convertToBase64(e.target.files[0])
         .then((res)=>
         {
             console.log(res);
