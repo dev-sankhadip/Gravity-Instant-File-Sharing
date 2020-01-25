@@ -226,7 +226,15 @@ router.get('/bin',checkToken, function(request, response)
 router.get('/profile', checkToken, function(request, response)
 {
   const { email }=request.decoded;
-  response.render('profile');
+  const sqlQuery="select * from info where email  = ?";
+  connection.query(sqlQuery,[email], (err, details)=>
+  {
+    if(err)
+    {
+      response.status(500).send({ code:500 })
+    }
+    response.render('profile',{details});
+  })
 })
 
 

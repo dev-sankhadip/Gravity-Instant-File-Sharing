@@ -20,7 +20,7 @@
                 <p style="color: brown; font-weight: bold; font-family: Arial, Helvetica, sans-serif;">User Profile Image</p>
                 <hr>
                 <img 
-                src="https://greendestinations.org/wp-content/uploads/2019/05/avatar-exemple.jpg" 
+                src="<%= details[0].img ? details[0].img : 'https://greendestinations.org/wp-content/uploads/2019/05/avatar-exemple.jpg' %>" 
                 style="width: 300px; height: 220px; border-radius: 50%; border: 1px solid black;" 
                 id="profile-image">
                 <br>
@@ -32,21 +32,21 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="name" style="color: chocolate; font-size: 17px; font-weight: bold;">Name: </label>
-                        <input id="name" type="text" value="Sankhadip Samanta" style="padding: 5px;">
+                        <input required id="name" type="text" value="<%= details[0].name %>" style="padding: 5px;">
                     </div>
                     <div class="col-6">
                         <label for="email" style="color: chocolate; font-size: 17px; font-weight: bold;">Email: </label>
-                        <input id="email" type="email" value="sankhadip.2000@gmail.com" style="padding: 5px;">
+                        <input required id="email" type="email" value="<%= details[0].email %>" style="padding: 5px;">
                     </div>
                 </div>
                 <div class="row" style="margin-top: 15px;">
                     <div class="col-6">
                         <label for="number" style="color: chocolate; font-size: 17px; font-weight: bold;">Number: </label>
-                        <input type="number" value="7407878778" id="number" style="padding: 5px;">
+                        <input required type="number" value="<%= details[0].number %>" id="number" style="padding: 5px;">
                     </div>
                     <div class="col-6">
                         <label for="password" style="color: chocolate; font-size: 17px; font-weight: bold;">Password: </label>
-                        <input type="password" value="123456" id="password" style="padding: 5px;">
+                        <input required type="password" value="<%= details[0].password %>" disabled id="password" style="padding: 5px;">
                     </div>
                 </div>
                 <div class="row" style="margin-top: 15px;">
