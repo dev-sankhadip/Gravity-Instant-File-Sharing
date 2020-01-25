@@ -6,8 +6,7 @@
 <br>
 
 ## Site URL
-
-http://34.203.204.120:4000
+<a target="_blank" href="http://34.203.204.120:4000">Gravity | Online File sharing click here</a>
 
 ## Tools used
 * NodeJS, ExpressJS, Javascript, HTML, CSS, Bootstrap
