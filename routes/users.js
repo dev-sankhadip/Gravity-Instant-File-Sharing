@@ -157,9 +157,29 @@ router.post('/login',(request, response)=>
     })
 })
 
-router.post('/update', checkCookies, function(request, response)
+router.post('/update/details', checkCookies, function(request, response)
 {
     console.log(request.body);
+})
+
+
+router.post('/update/image', checkCookies, function(request, response)
+{
+    const { res }=request.body;
+    const { email }=request.decoded;
+    const sqlQuery="update info set img = ? where email = ?";
+    connection.query(sqlQuery,[res, email],(err, result)=>
+    {
+        if(err)
+        {
+            console.log(err);
+            response.status(500).send({ code:500 })
+        }
+        else
+        {
+            response.status(200).send({ code:200 })
+        }
+    })
 })
 
 
