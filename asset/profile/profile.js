@@ -1,4 +1,6 @@
 const image_update_btn=document.getElementById("image-update");
+const profileImage=document.getElementById("profile-image");
+
 image_update_btn.addEventListener("click", function(e)
 {
     const fileInput=document.createElement("input");
@@ -25,7 +27,7 @@ image_update_btn.addEventListener("click", function(e)
         convertToBase64(e.target.files[0])
         .then((res)=>
         {
-            console.log(res);
+            profileImage.src=res;
         })
         .catch((err)=>
         {
