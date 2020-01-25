@@ -1,0 +1,58 @@
+<html lang="en">
+<head>
+    <% include partials/head.ejs %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+    <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+    <script src="semantic/dist/semantic.min.js"></script> -->
+    <title>Gravity | Profile</title>
+</head>
+<body>
+    <% include partials/navbar.ejs %>
+    <div class="container">
+        <div class="row" style="margin-top: 25px;">
+            <div class="col-md-6">
+                <p style="color: brown; font-weight: bold; font-family: Arial, Helvetica, sans-serif;">User Profile Image</p>
+                <hr>
+                <img src="https://greendestinations.org/wp-content/uploads/2019/05/avatar-exemple.jpg" style="width: 300px; height: 220px; border-radius: 50%;">
+                <br>
+                <button class="btn btn-danger btn-sm mt-1" style="margin-left: 120px;" id="image-update">Update</button>
+            </div>
+            <div class="col-md-6">
+                <p style="color: brown; font-weight: bold; font-family: Arial, Helvetica, sans-serif;">User Details</p>
+                <hr>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="name" style="color: chocolate; font-size: 17px; font-weight: bold;">Name: </label>
+                        <input id="name" type="text" value="Sankhadip Samanta" style="padding: 5px;">
+                    </div>
+                    <div class="col-6">
+                        <label for="email" style="color: chocolate; font-size: 17px; font-weight: bold;">Email: </label>
+                        <input id="email" type="email" value="sankhadip.2000@gmail.com" style="padding: 5px;">
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-6">
+                        <label for="number" style="color: chocolate; font-size: 17px; font-weight: bold;">Number: </label>
+                        <input type="number" value="7407878778" id="number" style="padding: 5px;">
+                    </div>
+                    <div class="col-6">
+                        <label for="password" style="color: chocolate; font-size: 17px; font-weight: bold;">Password: </label>
+                        <input type="password" value="123456" id="password" style="padding: 5px;">
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-6">
+                        <button class="btn btn-warning btn-sm">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -223,6 +223,19 @@ router.get('/bin',checkToken, function(request, response)
 })
 
 
+router.get('/profile', checkToken, function(request, response)
+{
+  const { email }=request.decoded;
+  response.render('profile');
+})
+
+
+router.get('/group', checkToken,function(request, response)
+{
+  const { email }=request.decoded;
+  const { id }=request.cookies;
+  response.render('groupChat');
+})
 
 
 
@@ -241,11 +254,11 @@ router.get('/:imageid/image/:name',checkToken, function(request, response, next)
         }
         if(result.length>0)
         {
-            // console.log(result);
             next();
         }
     })
 })
+
 
 
 router.get('/:videoid/watchvideo/:videoname', checkToken, function(request, response, next)
@@ -273,6 +286,8 @@ router.get('/:videoid/watchvideo/:videoname', checkToken, function(request, resp
     }
   })
 })
+
+
 
 //public url validation
 router.get('/public/:token/image/:name',(request, response, next)=>

@@ -90,6 +90,10 @@ app.use('/public/:token',express.static(path.join(__dirname, 'upload')));
 app.use('/:videoid', express.static(path.join(__dirname,'videos')));
 app.use('/public/:token', express.static(path.join(__dirname,'videos')));
 
+
+
+
+//chatting code
 var arrayOfUsers=[];
 io.on('connection', function(socket)
 {
@@ -336,6 +340,15 @@ io.on('connection', function(socket)
                 console.log(res);
             }
         })
+    })
+
+    socket.on('group_message', function(data)
+    {
+        const id_cookie_location=socket.request.headers.cookie.search("id");
+        const id_cookie=socket.request.headers.cookie.substring(id_cookie_location,id_cookie_location+4);
+        const sid=id_cookie.split("=")[1];
+        console.log(sid);
+        console.log(data);
     })
 })
 
