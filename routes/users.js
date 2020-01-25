@@ -183,4 +183,13 @@ router.post('/update/image', checkCookies, function(request, response)
 })
 
 
+router.get('/logout', function(request, response)
+{
+    response.clearCookie('email');
+    setTimeout(()=>
+    {
+        response.redirect('http://localhost:4000');
+    },2000)
+})
+
 module.exports=router;
