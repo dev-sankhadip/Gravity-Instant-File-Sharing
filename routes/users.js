@@ -157,5 +157,10 @@ router.post('/login',(request, response)=>
     })
 })
 
+router.post('/update', checkCookies, function(request, response)
+{
+    console.log(request.body);
+})
+
 
 module.exports=router;
