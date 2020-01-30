@@ -7,7 +7,8 @@ const checkCookies=require('../jwt/jwt').checkToken;
 
 router.post('/getAllMsg',checkCookies, function(request, response)
 {
-    const email=request.body.email;
+    // const email=request.body.email;
+    const { email }=request.body.email;
     var sql1="select * from message_box where sid = ?";
     var sql2="select * from message_box where rid = ?";
     var sql3="select friendid, friendname from friends where ownid = ?";
@@ -60,8 +61,9 @@ router.post('/getAllMsg',checkCookies, function(request, response)
 
 router.post('/chat',checkCookies, function(request, response)
 {
-    const userid=request.body.userid;
-    const s_id=request.body.s_id;
+    // const userid=request.body.userid;
+    // const s_id=request.body.s_id;
+    const { userid,s_id }=request.body;
     var odd="select * from message_box where (sid = ? and rid = ?) or (sid = ? and rid = ?)";
     connection.query(odd,[userid, s_id, s_id, userid], function(err, result)
     {
@@ -98,6 +100,12 @@ router.get("/details/:userid",checkCookies, function(request, response)
             })
         }
     })
+})
+
+
+router.post('/user', checkCookies, function(request, response)
+{
+
 })
 
 

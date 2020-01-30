@@ -30,6 +30,16 @@
                         <ul id="chat-list-ul" class="list-group"></ul>
                     </div>
                     <div class="col-12 pt-2" style="height: 320px; overflow: scroll;" id="friend-div">
+                        <!--- start search friend here -->
+                        <div class="w-100">
+                            <form class="form-inline my-2 my-lg-0">
+                                <input style="width: 100%;" class="form-control mr-sm-2 mb-3" type="search" placeholder="Search" id="friend-search-input">
+                            </form>
+                            <div style="position: absolute;" class="shadow" id="friend-search-result-div">
+                                <ul class="list-group" id="friend-search-list"></ul>
+                            </div>
+                        </div>
+                        <!---end search friend here-->
                         <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#friend-suggestion-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Friend Suggestion</button>
                         <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#friend-request-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Friend Request<span class="badge badge-dark" id="request_count"><%= result1.length %></span></button>
                         <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#sent-request-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Sent Request</button>

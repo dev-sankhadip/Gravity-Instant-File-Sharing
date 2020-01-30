@@ -561,6 +561,15 @@ for(let i=0;i<reject_request_btn.length;i++)
 }
 
 
+// friend search code
+// const friendSearchInput=document.getElementById("friend-search-input");
+// friendSearchInput.oninput=function(e)
+// {
+//     console.log(e.target.value);
+// }
+
+
+
 ///all public file configuration
 
 //image configuration
