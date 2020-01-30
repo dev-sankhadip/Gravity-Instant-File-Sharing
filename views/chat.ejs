@@ -30,6 +30,7 @@
                         <ul id="chat-list-ul" class="list-group"></ul>
                     </div>
                     <div class="col-12 pt-2" style="height: 320px; overflow: scroll;" id="friend-div">
+
                         <!--- start search friend here -->
                         <div class="w-100">
                             <form class="form-inline my-2 my-lg-0">
@@ -40,52 +41,54 @@
                             </div>
                         </div>
                         <!---end search friend here-->
-                        <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#friend-suggestion-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Friend Suggestion</button>
-                        <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#friend-request-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Friend Request<span class="badge badge-dark" id="request_count"><%= result1.length %></span></button>
-                        <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#sent-request-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Sent Request</button>
-                        <div id="friend-suggestion-div" class="collapse">
-                            <% if(result){ %>
-                                <ul>
-                                    <% result.forEach(function(item){ %>
-                                        <li id="<%=item.userid %>">
-                                            <div id="suggestion-name-div">
-                                                <span data-target="#profile-view-modal" data-toggle="modal" class="suggestion_name"><%= item.name %></span>
-                                            </div>
-                                            <button type="btn" class="btn btn-sm btn-warning add" onclick="this.blur();" style="border-radius: 0;" id="add">Add Friend</button>
-                                            <!-- <button type="btn" class="btn btn-sm btn-danger remove" onclick="this.blur()" style="border-radius: 0;" id="remove">Remove</button> -->
-                                        </li>
-                                    <% }) %>
-                                </ul>
-                            <% } %>
-                        </div>
-                        <div id="friend-request-div" class="collapse">
-                            <% if(result1){ %>
-                                <ul id="request-ul">
-                                    <% result1.forEach(function(item){ %>
-                                        <li id="<%= item.userid %>">
-                                            <div>
-                                                <span><%= item.name %></span>
-                                            </div>
-                                            <button type="btn" class="btn btn-sm btn-success accept" onclick="this.blur();" style="border-radius: 0;">Accept</button>
-                                            <button type="btn" class="btn btn-sm btn-danger reject" onclick="this.blur()" style="border-radius: 0;">Reject</button>
-                                        </li>
-                                    <% }) %>
-                                </ul>
-                            <% } %>
-                        </div>
-                        <div id="sent-request-div" class="collapse">
-                            <% if(result2){ %>
-                                <ul id="sent-request-ul">
-                                    <% result2.forEach(function(item){ %>
-                                        <li id="<%= item.userid %>">
-                                            <div>
-                                                <span><%= item.name %></span>
-                                            </div>
-                                            <button type="btn" class="btn btn-sm btn-warning text-light cancel" onclick="this.blur()" style="border-radius: 0;">Cancel Request</button>
-                                        </li>
-                                    <% }) %>
-                                </ul>
-                            <% } %>
+                        <div id="friend-box">
+                            <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#friend-suggestion-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Friend Suggestion</button>
+                            <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#friend-request-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Friend Request<span class="badge badge-dark" id="request_count"><%= result1.length %></span></button>
+                            <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#sent-request-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Sent Request</button>
+                            <div id="friend-suggestion-div" class="collapse">
+                                <% if(result){ %>
+                                    <ul>
+                                        <% result.forEach(function(item){ %>
+                                            <li id="<%=item.userid %>">
+                                                <div id="suggestion-name-div">
+                                                    <span data-target="#profile-view-modal" data-toggle="modal" class="suggestion_name"><%= item.name %></span>
+                                                </div>
+                                                <button type="btn" class="btn btn-sm btn-warning add" onclick="this.blur();" style="border-radius: 0;" id="add">Add Friend</button>
+                                                <!-- <button type="btn" class="btn btn-sm btn-danger remove" onclick="this.blur()" style="border-radius: 0;" id="remove">Remove</button> -->
+                                            </li>
+                                        <% }) %>
+                                    </ul>
+                                <% } %>
+                            </div>
+                            <div id="friend-request-div" class="collapse">
+                                <% if(result1){ %>
+                                    <ul id="request-ul">
+                                        <% result1.forEach(function(item){ %>
+                                            <li id="<%= item.userid %>">
+                                                <div>
+                                                    <span><%= item.name %></span>
+                                                </div>
+                                                <button type="btn" class="btn btn-sm btn-success accept" onclick="this.blur();" style="border-radius: 0;">Accept</button>
+                                                <button type="btn" class="btn btn-sm btn-danger reject" onclick="this.blur()" style="border-radius: 0;">Reject</button>
+                                            </li>
+                                        <% }) %>
+                                    </ul>
+                                <% } %>
+                            </div>
+                            <div id="sent-request-div" class="collapse">
+                                <% if(result2){ %>
+                                    <ul id="sent-request-ul">
+                                        <% result2.forEach(function(item){ %>
+                                            <li id="<%= item.userid %>">
+                                                <div>
+                                                    <span><%= item.name %></span>
+                                                </div>
+                                                <button type="btn" class="btn btn-sm btn-warning text-light cancel" onclick="this.blur()" style="border-radius: 0;">Cancel Request</button>
+                                            </li>
+                                        <% }) %>
+                                    </ul>
+                                <% } %>
+                            </div>
                         </div>
                     </div>
                 </div>

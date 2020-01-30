@@ -464,6 +464,8 @@ for(let i=0;i<add_btn.length;i++)
     })
 }
 
+
+// recieve friend request code
 socket.on('friend_request',function(data)
 {
     var request_ul=document.getElementById("request-ul");
@@ -514,6 +516,9 @@ socket.on('friend_request',function(data)
 
 })
 
+
+// request accept button code
+
 var accept_btn=document.getElementsByClassName("accept");
 var reject_btn=document.getElementsByClassName("reject");
 
@@ -563,25 +568,39 @@ for(let i=0;i<reject_request_btn.length;i++)
 
 // friend search code
 const friendSearchInput=document.getElementById("friend-search-input");
+const friendBox=document.getElementById("friend-box");
+let friendBoxHTML=friendBox.innerHTML;
 friendSearchInput.oninput=function(e)
 {
-    console.log(e.target.value);
     const name=e.target.value;
-    fetch(`/messenger/user/${name}`,{
-        method:"GET"
-    })
-    .then((res)=>
+    if(name.length>0)
     {
-        return res.json();
-    })
-    .then((res)=>
+        fetch(`/messenger/user/${name}`,{
+            method:"GET"
+        })
+        .then((res)=>
+        {
+            return res.json();
+        })
+        .then((res)=>
+        {
+            console.log(res);
+            friendBox.innerHTML="";
+            const { users, friend }=res;
+            users.length>0 ? users.map(function(user)
+            {
+                console.log(user);
+            }) : friendBox.innerHTML="No user found";
+        })
+        .catch((err)=>
+        {
+            console.log(err);
+        })
+    }
+    else
     {
-        console.log(res);
-    })
-    .catch((err)=>
-    {
-        console.log(err);
-    })
+        friendBox.innerHTML=friendBoxHTML;
+    }
 }
 
 
