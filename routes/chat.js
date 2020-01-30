@@ -80,7 +80,7 @@ router.post('/chat',checkCookies, function(request, response)
 router.get("/details/:userid",checkCookies, function(request, response)
 {
     const { userid }=request.params;
-    var sql="select name, email, number, university from info where userid = ?";
+    var sql="select name, email, number, university, img from info where userid = ?";
     infoConnection.query(sql,[userid], function(err, result)
     {
         if(err)
