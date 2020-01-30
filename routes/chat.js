@@ -103,9 +103,30 @@ router.get("/details/:userid",checkCookies, function(request, response)
 })
 
 
-router.post('/user', checkCookies, function(request, response)
+router.get('/user/:name', checkCookies, function(request, response)
 {
-
+    const { email }=request.decoded;
+    const { name }=request.params;
+    const { id }=request.cookies;
+    const getAllUserSqlQuery=`select * from info where name like '${name}%'`;
+    const getAllFriendSqlQuery="select friendid from friends where ownid = ?";
+    infoConnection.query(getAllUserSqlQuery,[name],(err1, users)=>
+    {
+        if(err1)
+        {
+            console.log(err1);
+            response.status(500).send({ code:500 });
+        }
+        infoConnection.query(getAllFriendSqlQuery,[id, id],(err2, friend)=>
+        {
+            if(err2)
+            {
+                console.log(err2);
+                response.status(500).send({ code:500 });
+            }
+            response.status(200).send({ users, friend });
+        })
+    })
 })
 
 

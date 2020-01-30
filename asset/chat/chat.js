@@ -562,11 +562,27 @@ for(let i=0;i<reject_request_btn.length;i++)
 
 
 // friend search code
-// const friendSearchInput=document.getElementById("friend-search-input");
-// friendSearchInput.oninput=function(e)
-// {
-//     console.log(e.target.value);
-// }
+const friendSearchInput=document.getElementById("friend-search-input");
+friendSearchInput.oninput=function(e)
+{
+    console.log(e.target.value);
+    const name=e.target.value;
+    fetch(`/messenger/user/${name}`,{
+        method:"GET"
+    })
+    .then((res)=>
+    {
+        return res.json();
+    })
+    .then((res)=>
+    {
+        console.log(res);
+    })
+    .catch((err)=>
+    {
+        console.log(err);
+    })
+}
 
 
 
