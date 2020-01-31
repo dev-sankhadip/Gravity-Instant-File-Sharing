@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/imagehover/imagehover.min.css">
     <link rel="stylesheet" href="/animate.css">
@@ -30,65 +31,52 @@
                         <ul id="chat-list-ul" class="list-group"></ul>
                     </div>
                     <div class="col-12 pt-2" style="height: 320px; overflow: scroll;" id="friend-div">
-
-                        <!--- start search friend here -->
-                        <div class="w-100">
-                            <form class="form-inline my-2 my-lg-0">
-                                <input style="width: 100%;" class="form-control mr-sm-2 mb-3" type="search" placeholder="Search" id="friend-search-input">
-                            </form>
-                            <div style="position: absolute;" class="shadow" id="friend-search-result-div">
-                                <ul class="list-group" id="friend-search-list"></ul>
-                            </div>
+                        <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#friend-suggestion-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Friend Suggestion</button>
+                        <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#friend-request-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Friend Request<span class="badge badge-dark" id="request_count"><%= result1.length %></span></button>
+                        <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#sent-request-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Sent Request</button>
+                        <div id="friend-suggestion-div" class="collapse">
+                            <% if(result){ %>
+                                <ul>
+                                    <% result.forEach(function(item){ %>
+                                        <li id="<%=item.userid %>">
+                                            <div id="suggestion-name-div">
+                                                <span data-target="#profile-view-modal" data-toggle="modal" class="suggestion_name"><%= item.name %></span>
+                                            </div>
+                                            <button type="btn" class="btn btn-sm btn-warning add" onclick="this.blur();" style="border-radius: 0;" id="add">Add Friend</button>
+                                            <!-- <button type="btn" class="btn btn-sm btn-danger remove" onclick="this.blur()" style="border-radius: 0;" id="remove">Remove</button> -->
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                            <% } %>
                         </div>
-                        <!---end search friend here-->
-                        <div id="friend-box">
-                            <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#friend-suggestion-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Friend Suggestion</button>
-                            <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#friend-request-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Friend Request<span class="badge badge-dark" id="request_count"><%= result1.length %></span></button>
-                            <button type="button" class="btn btn-sm text-light" data-toggle="collapse" data-target="#sent-request-div" onclick="this.blur();" style="border-radius: 0; background-color: lightcoral;">Sent Request</button>
-                            <div id="friend-suggestion-div" class="collapse">
-                                <% if(result){ %>
-                                    <ul>
-                                        <% result.forEach(function(item){ %>
-                                            <li id="<%=item.userid %>">
-                                                <div id="suggestion-name-div">
-                                                    <span data-target="#profile-view-modal" data-toggle="modal" class="suggestion_name"><%= item.name %></span>
-                                                </div>
-                                                <button type="btn" class="btn btn-sm btn-warning add" onclick="this.blur();" style="border-radius: 0;" id="add">Add Friend</button>
-                                                <!-- <button type="btn" class="btn btn-sm btn-danger remove" onclick="this.blur()" style="border-radius: 0;" id="remove">Remove</button> -->
-                                            </li>
-                                        <% }) %>
-                                    </ul>
-                                <% } %>
-                            </div>
-                            <div id="friend-request-div" class="collapse">
-                                <% if(result1){ %>
-                                    <ul id="request-ul">
-                                        <% result1.forEach(function(item){ %>
-                                            <li id="<%= item.userid %>">
-                                                <div>
-                                                    <span><%= item.name %></span>
-                                                </div>
-                                                <button type="btn" class="btn btn-sm btn-success accept" onclick="this.blur();" style="border-radius: 0;">Accept</button>
-                                                <button type="btn" class="btn btn-sm btn-danger reject" onclick="this.blur()" style="border-radius: 0;">Reject</button>
-                                            </li>
-                                        <% }) %>
-                                    </ul>
-                                <% } %>
-                            </div>
-                            <div id="sent-request-div" class="collapse">
-                                <% if(result2){ %>
-                                    <ul id="sent-request-ul">
-                                        <% result2.forEach(function(item){ %>
-                                            <li id="<%= item.userid %>">
-                                                <div>
-                                                    <span><%= item.name %></span>
-                                                </div>
-                                                <button type="btn" class="btn btn-sm btn-warning text-light cancel" onclick="this.blur()" style="border-radius: 0;">Cancel Request</button>
-                                            </li>
-                                        <% }) %>
-                                    </ul>
-                                <% } %>
-                            </div>
+                        <div id="friend-request-div" class="collapse">
+                            <% if(result1){ %>
+                                <ul id="request-ul">
+                                    <% result1.forEach(function(item){ %>
+                                        <li id="<%= item.userid %>">
+                                            <div>
+                                                <span><%= item.name %></span>
+                                            </div>
+                                            <button type="btn" class="btn btn-sm btn-success accept" onclick="this.blur();" style="border-radius: 0;">Accept</button>
+                                            <button type="btn" class="btn btn-sm btn-danger reject" onclick="this.blur()" style="border-radius: 0;">Reject</button>
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                            <% } %>
+                        </div>
+                        <div id="sent-request-div" class="collapse">
+                            <% if(result2){ %>
+                                <ul id="sent-request-ul">
+                                    <% result2.forEach(function(item){ %>
+                                        <li id="<%= item.userid %>">
+                                            <div>
+                                                <span><%= item.name %></span>
+                                            </div>
+                                            <button type="btn" class="btn btn-sm btn-warning text-light cancel" onclick="this.blur()" style="border-radius: 0;">Cancel Request</button>
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                            <% } %>
                         </div>
                     </div>
                 </div>
@@ -188,22 +176,28 @@
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <img id="profile-image" alt="" class="img-thumbnail">
+                                    <img src="" alt="" class="img-thumbnail">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="input-group flex-nowrap mt-2">
+                                    <div class="input-group flex-nowrap">
                                         <div class="input-group-prepend">
                                           <span class="input-group-text">Email</span>
                                         </div>
                                         <input type="text" class="form-control" disabled id="profile-email" style="background-color: white;">
                                     </div>
-                                    <div class="input-group flex-nowrap mt-2">
-                                        <div class="input-group-prepend" style="border-radius: 0;">
+                                    <div class="input-group flex-nowrap">
+                                        <div class="input-group-prepend">
                                           <span class="input-group-text">Phone No</span>
                                         </div>
                                         <input type="text" class="form-control" disabled id="profile-phone-no" style="background-color: white;">
+                                    </div>
+                                    <div class="input-group flex-nowrap">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text">University</span>
+                                        </div>
+                                        <input type="text" class="form-control" disabled id="profile-university" style="background-color: white;">
                                     </div>
                                 </div>
                             </div>

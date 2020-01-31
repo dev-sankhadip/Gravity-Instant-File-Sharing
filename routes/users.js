@@ -135,8 +135,8 @@ router.post('/login',(request, response)=>
                     }
                 );
                 const userid=result[0].userid;
-                response.cookie('email',token, { maxAge: 9000000, httpOnly: true });
-                response.cookie('id',userid, { maxAge: 9000000, httpOnly: true });
+                response.cookie('email',token, { maxAge: 9000000, httpOnly: true, sameSite:true });
+                response.cookie('id',userid, { maxAge: 9000000, httpOnly: true, sameSite:true });
                 response.render('welcome',{userid});
             }
             else

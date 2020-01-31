@@ -566,42 +566,45 @@ for(let i=0;i<reject_request_btn.length;i++)
 }
 
 
-// friend search code
-const friendSearchInput=document.getElementById("friend-search-input");
-const friendBox=document.getElementById("friend-box");
-let friendBoxHTML=friendBox.innerHTML;
-friendSearchInput.oninput=function(e)
-{
-    const name=e.target.value;
-    if(name.length>0)
-    {
-        fetch(`/messenger/user/${name}`,{
-            method:"GET"
-        })
-        .then((res)=>
-        {
-            return res.json();
-        })
-        .then((res)=>
-        {
-            console.log(res);
-            friendBox.innerHTML="";
-            const { users, friend }=res;
-            users.length>0 ? users.map(function(user)
-            {
-                console.log(user);
-            }) : friendBox.innerHTML="No user found";
-        })
-        .catch((err)=>
-        {
-            console.log(err);
-        })
-    }
-    else
-    {
-        friendBox.innerHTML=friendBoxHTML;
-    }
-}
+// // friend search code
+// const friendSearchInput=document.getElementById("friend-search-input");
+// const friendBox=document.getElementById("friend-box");
+// const friendSearchResultDiv=document.getElementById("friend-search-result-div");
+// const friendSearchResultUl=document.getElementById("friend-search-list");
+
+// let friendBoxHTML=friendBox.innerHTML;
+// friendSearchInput.oninput=function(e)
+// {
+//     const name=e.target.value;
+//     if(name.length>0)
+//     {
+//         fetch(`/messenger/user/${name}`,{
+//             method:"GET"
+//         })
+//         .then((res)=>
+//         {
+//             return res.json();
+//         })
+//         .then((res)=>
+//         {
+//             console.log(res);
+//             friendBox.innerHTML="";
+//             const { users, friend }=res;
+//             users.length>0 ? users.map(function(user)
+//             {
+//                 console.log(user);
+//             }) : friendBox.innerHTML="No user found";
+//         })
+//         .catch((err)=>
+//         {
+//             console.log(err);
+//         })
+//     }
+//     else
+//     {
+//         friendBox.innerHTML=friendBoxHTML;
+//     }
+// }
 
 
 
@@ -759,13 +762,13 @@ for(let i=0;i<suggestion_name_view.length;i++)
         })
         .then((res)=>
         {
-            console.log(res);
-            const imgBase64=res.result[0].img;
-            const profileImg=document.getElementById("profile-image");
-            profileImg.style.width="100px";
-            profileImg.style.height="100px";
-            profileImg.style.marginLeft="42%";
-            imgBase64==null ? profileImg.src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" : profileImg.src=imgBase64
+            // console.log(res);
+            // const imgBase64=res.result[0].img;
+            // const profileImg=document.getElementById("profile-image");
+            // profileImg.style.width="100px";
+            // profileImg.style.height="100px";
+            // profileImg.style.marginLeft="42%";
+            // imgBase64==null ? profileImg.src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" : profileImg.src=imgBase64
             document.getElementById("profile-email").value=res.result[0].email;
             document.getElementById("profile-phone-no").value=res.result[0].number;
         })

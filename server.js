@@ -152,12 +152,14 @@ io.on('connection', function(socket)
             insert_new_msg(non_active_user_new_message);
         }
     })
+    
     socket.on('add_friend', function(data)
     {
         const reciepientId=data.reciepientId;
         const id_cookie_location=socket.request.headers.cookie.search("id");
         const id_cookie=socket.request.headers.cookie.substring(id_cookie_location,id_cookie_location+4);
         const requesterId=id_cookie.split("=")[1];
+        console.log(socket.request.headers);
         var sql="select * from info where userid = ?";
         var sql1="insert into request(requester, recipient, status) values(?,?,?)";
         infoConnection.query(sql1,[requesterId, reciepientId,"1"], function(err, result1)

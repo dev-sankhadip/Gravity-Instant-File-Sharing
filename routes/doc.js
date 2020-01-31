@@ -166,17 +166,27 @@ router.get('/edit/:fileid/:filename',checkCookies, function(request, response)
                 })
             }
             const filename=result[0].name;
-            if(filename.split('.')[1]=="c")
+            const extension=filename.split('.')[1];
+            if(extension=="c")
             {
                 sendfile(filename);
             }
-            else if(filename.split('.')[1]=='txt')
+            else if(extension=='txt')
             {
-                sendfile(filename);
+                fs.readFile(`./upload/docs/${filename}`,'utf-8',(err, data)=>
+                {
+                    if(err)
+                    {
+                        console.log(err);
+                        return;
+                    }
+                    console.log(data);
+                    response.render('doc_editor',{ data });
+                })
             }
             else
             {
-                response.sendfile(`./upload/docs/${filename}`);
+                response.sendFile('/home/sankha/Desktop/gravity/upload/docs/'+filename);
             }
         }
     })

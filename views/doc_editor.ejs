@@ -4,7 +4,7 @@
 	<title></title>
 	<meta charset="utf-8">
 	<meta lang="en-US">
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="/doc_editor/style.css">
 </head>
 <body>
 	<header>
@@ -21,7 +21,10 @@
 		<button id="right">right</button>
 		<button id="center">center</button>
 	</header>
-	<div id="page" contenteditable="true" spellcheck="false"></div>
-	<script src="script.js"></script>
+	<!-- <p><%= data %></p> -->
+	<div id="page" contenteditable="true" spellcheck="false">
+		<%= data %>
+	</div>
+	<script src="/doc_editor/script.js"></script>
 </body>
 </html>
